@@ -1,1 +1,1 @@
-These are some notes that I made as I read the textbook on Deep Learning by Ian Goodfellow, Yoshua Bengio and Aaron Courville. They were meant to 'reinforce my learning' and enable easy revision. Hopefully, they can be of benefit to other readers as well.
+These are some notes that I'm making as I read through the textbook on Deep Learning by Ian Goodfellow, Yoshua Bengio and Aaron Courville. They were meant to 'reinforce my learning' and enable easy revision. Hopefully, they can be of benefit to other readers as well.
