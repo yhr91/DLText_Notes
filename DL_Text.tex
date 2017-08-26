@@ -15,8 +15,6 @@
 
 \begin{document}
 \maketitle
-
-
 \section{Probability}
 
 \subsection{Distributions}
@@ -93,43 +91,7 @@ Generally, for neural networks, we \textbf{only penalize the weights of the affi
     
 \end{itemize}
 
-\section{Extra Notes}
-
-\subsection{Dimensionality reduction}
-
-These are notes made during a talk by Laurens van der Maaten at Google in 2013 \cite{vdMaaten}
-\begin{itemize}
-    \item \textbf{PCA}
-    Linear projection of the data, such that the variance between data points is maximized. Tries to make sure that stuff that is dissimilar ends up far apart, so it's better at preserving large pariwise distances
-    
-    \item \textbf{Locally linear embedding}
-    Attempts to preserve small pairwise distances but tends to cluster all points at the origin
-    
-    \item \textbf{t-dsitibuted Stochastic Neighbor Embedding (tSNE)}
-    A non-linear dimensionality reduction that also preserves small pairwise distances such that similar objects are modeled by similar points and dissimlar objects are modeled by distant points. 
-    
-    Work with two distributions $p_{i,j}$ in the high-dimensional space and ${q_{i,j}$ in the low-dimensional space, where $i,j$ are data points. For any given point in the high dimensional space, center a gaussian at that point and measure the density of all other points under this Gaussian. Repeat for all points and then renormalize
-    
-    $$ Missing_equation $$
-    
-    This gives the similarity between paris of points $i,j$. In practice, conditional probability is computed instead of calculating the joint probability directly. Then, repeat this procedure in low dimensional space, but use a t-distribution for $q_{i,j}$ instead of a Gaussian. 
-    
-    $$ Missing_equation $$
-    
-    Now, the goal is to make $q_{i,j}$ represent $p_{i,j}$ as much as possible. So, we use KL divergence to measure the distance between the two probability distributions
-    
-    \textbf{Why does this work?}
-    
-    If you have a high value of $p_{i,j}$, then you must make sure that you have a high value of $q_{i,j}$ otherwise you'll have a high penalty, as described by the definition of KL divergence
-    
-    $$ missing_equation$$
-    
-    On the other hand, if small $p_{i,j}$ is modeled by large $q_{i,j}$ then the penalty is not as large. Thus, tSNE really emphasizes the local structure of the data.
-    
-    Also, the reason we use a t disitburion instead of gaussian is because as we go down to lower dimensions, our preference for small scale similarity often causes dissimilar points to be modeled too far apart. The fat tails on a t-distribution allow for that.
-    
-    
-\end{itemize}
+Reinforcement Learning
 
 \begin{figure}[h!]
 \centering
