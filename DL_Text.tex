@@ -4,17 +4,24 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyfoot[L]{Unless otherwise specififed, all content is the author's summary of "Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. Deep learning. MIT press, 2016."}
+\fancyfoot[L]{Unless otherwise specififed, all content is the author's summary of "Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. Deep learning. MIT press, 2016." with some text verbatim. For the full text, please visit: http://www.deeplearningbook.org/.}
 
 \title{Deep Learning Textbook - Notes}
 \author{yusuf.roohani }
-\date{August 2017}
+\date{Began August 2017}
 
 \begin{document}
 \maketitle
+
+%%% ---- SECTION 1 Prboability
+
 \section{Probability}
 
 \subsection{Distributions}
@@ -35,7 +42,143 @@
     \end{itemize}
 \end{itemize}
 
-\section{Neural networks}
+%%% ---- SECTION 4 Numerical Computations
+
+\section{Numerical Computations}
+
+\begin{definition}{Numerical computation}
+Algorithms that solve mathematical problems by methods that update estimates of the solution via an iterative process, rather than analytically deriving a formula
+\end{definition}
+
+Fundamental difficulty with digital computers - infinitely many real numbers need to be represented with a finite number of patterns. Thus there is necessarily some approximation.
+
+\subsection{Overflow and Underflow}
+
+\begin{definition}{Underflow}
+When numbers near zero are rounded to zero
+\end{definition}
+
+\begin{definition}{Overflow}
+When numbers with large magnitude are approximated as $\infty$ or $-\infty$
+\end{definition}
+
+For instance, in the softmax function
+
+$$ \textrm{softmax}(x)_i = \frac{exp(x_i)}{\sum^n_{j=1}exp(x_j)} $$
+
+Assume all $x_i$ are equal to $c$. If $c$ is too large, there will be underflow and the final result is undefined. If $c$ is very large and positive $exp(c)$ will overflow and it will also be undefined. One solution is to calculate the softmax as
+
+$$ \textrm{softmax}(z) = x - max_ix_i $$
+
+These are just some examples of numerical issues that are generally handled by low level libraries.
+
+\subsection{Gradient based optimization}
+
+\begin{definition}{Optimization}
+Either minimizing or maximizing some (objective or cost) function $f(x)$ by altering $x$. Optimum value usually denoted as $x^*$
+\end{definition}
+
+The derivative $f'(x)$ gives the slope of $f(x)$ at the point x.
+
+$$ f(x + \epsilon) \approx f(x) + \epsilon f'(x) $$
+
+\begin{definition}{Gradient descent}
+Reduce f(x) by moving in small steps with the opposite sign of the derivative
+\end{definition}
+
+A local minimum is a point where $f(x)$ is lower than at all neighboring points. A global minimum is the absolute lowest value of $f(x)$
+
+In the context of deep learning, we optimize functions that may have many local minima that are not optimal and many saddle points surrounded by very flat regions. All of this make optimization difficult especially for multimdimensional functions.
+
+We must now generalize to multiple dimensions.
+
+\begin{definition}{Gradient}
+The gradient is the vector containing all the partial derivatives. Element $i$ of the gradient $ \nabla_xf(x)$ is the partial derivatives of $f$ with respect to $x_i$. 
+\end{definition}
+
+\begin{definition}{directional derivative}
+The directional derivative in $u$ (unit vector) is the slope of the function $f$ in direction $u$
+
+$$ \frac{\partial}{\partial a} f(x + au) = u^T\nabla_xf(x) $$
+\end{definition}
+
+Minimizing this equation:
+$$ \min_{u, u^Tu=1} u^T\nabla_xf(x) $$
+$$ \min_{u, u^Tu=1} ||u||_2 ||\nabla_xf(x)||_2 cos\theta $$
+
+This will be minimized in the direction opposite to the gradient $(cos \theta = -1)$ We can thus decrease $f$ by moving in the direction of the negative gradient.
+
+$$ x' = x - \epsilon\nabla_xf(x) $$
+
+Here $\epsilon$ is the learning rate, a scalar that determines the size of the step.
+
+\subsection{Jacobian and Hessian Matrices}
+
+%%% ---- SECTION 5 Machine Learning
+
+\section{Machine Learning}
+
+\begin{definition}
+Machine learning is a branch of applied statistics with increased emphasis on the use of computer to estimtate complicated functions
+\end{definition}
+
+\begin{definition}
+{Learning} A computer program is said to learn from experience $E$ with respect to some class of tests $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$ improves with experience $E$
+\end{definition}
+
+Tasks are usually defined in terms of how a machine learning algorithm should process an example. An example is a collection of features that have been quantitatively measured from some object.
+
+Some common machine learning tasks:
+\begin{itemize}
+    \item Classification
+    \item Classification with missing inputs
+    \item Regression
+    \item Transcription
+    \item Machine translation
+    \item Structured output
+    \item Anomaly detection
+    \item Synthesis and sampling
+    \item Imputation of missing values
+    \item Denoising
+    \item Density estimation
+\end{itemize}
+
+The performance measure is a quantitative measure of performance, eg: accuracy, error rate.
+
+Machine learning algorithms are generally allowed to experience an entire dataset.
+\begin{definition}
+{Unsupervised learning} Learn the entire probability distirubtion that generated a dataset, whether explicitly, as in density estimation, or implicitly, such as in synthesis and denoising
+\end{definition}
+
+\begin{definition}
+{Supervised learning} Experience a dataset where each example is associated with a label.
+\end{definition}
+
+\subsection{Capacity, Overfitting, Underfitting}
+
+Central challenge in machine learning: model must perform well on new, unseen inputs (generalization). The generalization error is the expected value of the error for a new input.
+
+What separates machine learning from optimization is that we want generalization error to be low as well as training error. This is normally estimated through performance on a test set.
+
+How can we affect performance on test set when we only see the training set
+
+We typically make a set of assumptions (i.i.d. assumptions):
+\begin{itemize}
+    \item Examples in each dataset (train or test) are independent of each other
+    \item training and test set are identically distributed (i.e. same data generating distribution)
+\end{itemize}
+
+Thus, for a randomly selected model, the expected training error is equal to the expected test error. However, in machine learning, we sample the training set, use it to choose parameters to reduce the training set error, then sample the test set. Now, expected test error is greater than training
+
+So we must 
+\begin{itemize}
+    \item Make the test error small (to prevent underfitting)
+    \item Reduce the gap between training and test (to prevent overfitting)
+\end{itemize}
+
+Both of these can be altered using model capacity. Eg: with high capacity you learn unimportant properties from training set
+
+\section{Neural Networks}
 
 \begin{itemize}
     \item \textbf{Softmax} The softmax function is normally used to highlight the largest values and suppress values which are significantly below the maximum value
@@ -87,11 +230,14 @@ Generally, for neural networks, we \textbf{only penalize the weights of the affi
     
     $$ \Omega(\theta) = ||w||_1 = \sum_i|w_i| $$
     
-    
-    
 \end{itemize}
 
-Reinforcement Learning
+\section{Optimization}
+
+\section{Convolutional Neural Networks}
+
+\section{Applications}
+
 
 \begin{figure}[h!]
 \centering

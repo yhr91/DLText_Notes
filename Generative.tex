@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{Unless otherwise specififed, all content is the author's summary of "Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. Deep learning. MIT press, 2016."}
+
+\title{Generative Networks}
+\author{yusuf.roohani }
+\date{August 2017}
+
+\begin{document}
+\maketitle
+
+\section{Generative Adversarial Networks}
+
+\subsection{Learning from Simulated and Unsupervised Images using Adversarial Training \cite{shrivastava2016learning}} 
+
+Learning from synthetic images often does not achieve the desired performenace due to a gap between synthetic and real image distributions. 
+
+\begin{itemize}
+
+    \item Propose simulated + unsupervised learning that uses unlabelled real data to refine synthetic images
+    \item Train a refiner network to add realism to synthetic images using a combination of adversarial and self-regularization loss
+    \item Modify GAN to stabilize training and reduce artifacts
+    \item Show improved realism and state-of-the-art results on training deep neural networks
+
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

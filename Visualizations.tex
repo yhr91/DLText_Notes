@@ -45,6 +45,43 @@ These are notes made during a talk by Laurens van der Maaten at Google in 2013 \
     
     Also, the reason we use a t distribution instead of Gaussian is because as we go down to lower dimensions, our preference for small scale similarity often causes dissimilar points to be modeled too far apart. The fat tails on a t-distribution allow for that.
 
+\section{Model Interpretability}
+
+Need to read this still \cite{zeiler2014visualizing}
+
+\subsection{Image saliency maps}
+
+Given an image $I_o$, a class $c$ and a classification convnet with a class score function of $S_c(I)$, image specific class saliency maps attempt to rank the pixels of $I_o$ by their influence on the score $S_c(I_o)$ \cite{simonyan2013deep}
+
+We know that the linear score for an image $I$ can be represented as,
+
+$$ S_c(I) = w_c^T*I + b_c $$
+
+From this, it is clear that the magnitude of the elements of w define the importance of the corresponding pixels. However, $S_c$ is a highly nonlinear function. Given an image $I_o$, we can approximate the value of $S_c(I)$ with a linear function in the neighborhood of $I_o$ by using the first-order Taylor series expansion:
+
+$$ S_c(I) \approx w^T I + b$$ 
+
+where $w$ is the derivative 
+
+$$ w = \frac{\partial S_c}{\partial I} $$
+
+One way to think about this is - which pixels need to be changed the least to change the class score the most
+
+\subsubsection{Extracting saliency maps}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{Saliency_catch_mispredict.PNG}
+\caption{Saliency maps being used to understand the source of a misprediction}
+\label{fig:saliency}
+\end{figure}
+
+\begin{itemize}
+    \item First the derivative is found by backpropogation
+    \item Saliency map is obtained by rearranging elements in the vector $w$. In case of a single channel, this is straightforward, in case of three channels we take the maximum across the channels for each pixel
+    \item 
+\end{itemize}
+
 \bibliographystyle{plain}
 \bibliography{references}
 
