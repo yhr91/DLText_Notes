@@ -31,6 +31,25 @@ Learning from synthetic images often does not achieve the desired performenace d
 
 \end{itemize}
 
+\section{Springenberg 2016}
+
+\subsection{GANs}
+
+Let $\chi = {x^1, x^2 ... x^N}$
+
+The GAN objective could be written as:
+$ \min_{G} \max_D $
+
+\subsection{CatGANs}
+
+Trying to learn a discriminative classifier using GAN's that calssifies inputs into multiple classes as opposed to a single class.
+
+This is similar to a probabilitic cluster assigment but by using a discriminator trained 'adversarially', it will hopefully become more robust against overfitting to noise
+
+The second observation is that a standard GAN cannot solve this multiclass problem - because it is only trained for a binary classification
+
+
+
 \bibliographystyle{plain}
 \bibliography{references}
 
